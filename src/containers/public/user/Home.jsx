@@ -1,7 +1,7 @@
 import React from "react";
 import icons from "../../../ultis/icons.js";
 import { NavLink } from "react-router-dom";
-import { CardBottom } from "../../../components";
+import { CardBottom, Slider } from "../../../components";
 
 function Home() {
   const { GiGraduateCap, AiFillPlusCircle } = icons;
@@ -84,6 +84,9 @@ function Home() {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col mt-4">
+        <div>
+          <Slider />
+        </div>
         <div className="flex gap-3">
           <GiGraduateCap
             size={30}
@@ -185,9 +188,7 @@ function Home() {
                     key={index}
                     className="flex flex-col border-b-2 border-solid border-gray-200"
                   >
-                    <span className="cursor-pointer">
-                      {item.title}
-                    </span>
+                    <span className="cursor-pointer">{item.title}</span>
                   </div>
                 );
               })}

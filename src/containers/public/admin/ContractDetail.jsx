@@ -110,7 +110,7 @@ const ContractDetail = ({ isShow }) => {
 
 export default ContractDetail;
 
-const Styled = styled.header`
+const Styled = styled.div`
   #contract-detail {
     .information-customer,
     .information-event {
