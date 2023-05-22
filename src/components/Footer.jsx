@@ -6,7 +6,7 @@ function Footer() {
   return (
     <Styled>
       <div id="footer">
-        <ul class="flex flex-col gap-2">
+        <ul className="flex flex-col gap-2">
           <h2>Connect with me</h2>
           <li>
             <span>Zalo:</span>

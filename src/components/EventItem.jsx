@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const EventItem = () => {
+const EventItem = ({ hinhSuKien, moTaSuKien, tenSuKien, maSuKien }) => {
   const navvigate = useNavigate();
   const handleEventItem = () => {
     navvigate("/service");
@@ -10,16 +10,16 @@ const EventItem = () => {
   return (
     <div className="item-event">
       <img
-        src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg"
+      width={300}
+      height={200}
+      style={{maxWidth: "300px", height: "200px", objectFit: "cover"}}
+        src={`${process.env.REACT_APP_API}/${process.env.REACT_APP_IMAGES}/${hinhSuKien}`}
         alt="img"
         onClick={handleEventItem}
       />
       <div className="flex flex-col gap-1">
-        <span>Sự kiện 1</span>
-        <span>
-          Mô tả 1 Mô tả 1 Mô tả 1 Mô tả 1 Mô tả 1 Mô tả 1 Mô tả 1 Mô tả 1 Mô tả
-          1 Mô tả 1 Mô tả 1 Mô tả 1{" "}
-        </span>
+        <span>{tenSuKien}</span>
+        <span>{moTaSuKien}</span>
       </div>
     </div>
   );

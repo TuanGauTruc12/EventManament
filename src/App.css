@@ -87,7 +87,7 @@ img:hover {
   gap: 16px;
 }
 
-.create-event div div {
+.create-event div div, .information-event div div {
   max-width: 500px;
   justify-content: space-between;
   display: flex;
@@ -97,7 +97,10 @@ img:hover {
 
 .create-event div div input,
 .create-event div div select,
-.create-event div div textarea {
+.create-event div div textarea,
+.information-event div div input,
+.information-event div div select,
+.information-event div div textarea {
   flex: auto;
   max-width: 320px;
 }
@@ -185,7 +188,6 @@ img:hover {
 
 #contract .information-customer div,
 #contract .information-event div,
-#contract .information-service div,
 #contract-detail .information-customer div,
 #contract-detail .information-event div,
 #contract-detail .information-service div

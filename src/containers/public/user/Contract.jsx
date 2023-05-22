@@ -56,25 +56,73 @@ const Contract = () => {
         <div className="information-event">
           <span className="decription">CÁC THÔNG TIN VỀ SỰ KIỆN</span>
           <div>
-            <span>Tên sự kiện:</span>
-            <span>Sự kiện 1</span>
+            <div>
+              <span>Tên sự kiện:</span>
+              <span>Sự kiện 1</span>
+            </div>
+            <div>
+              <span>Tên công ty:</span>
+              <span>Công ty ABC</span>
+            </div>
           </div>
           <div>
-            <span>Thời gian bắt đầu:</span>
-            <span>1/5/2023</span>
+            <div>
+              <span>Thời gian bắt đầu:</span>
+              <span>1/5/2023</span>
+            </div>
+            <div>
+              <span>Thời gian kết thúc:</span>
+              <span>20/5/2023</span>
+            </div>
           </div>
           <div>
-            <span>Thời gian kết thúc:</span>
-            <span>20/5/2023</span>
-          </div>
-          <div>
-            <span>Số lượng khách mời:</span>
-            <span>4</span>
+            <div>
+              <span>Số lượng khách mời:</span>
+              <span>4</span>
+            </div>
+            <div>
+              <span> Kinh phí:</span>
+              <span> 10000 vnd</span>
+            </div>
           </div>
         </div>
         <div className="information-service">
           <span>CÁC DỊCH VỤ YÊU CẦU</span>
-          <div>.....</div>
+          <table className="contracts">
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Tên dịch vụ</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Tổng tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="service-item">
+                <td>1</td>
+                <td>dịch vụ 1</td>
+                <td>900000</td>
+                <td>2</td>
+                <td>18000</td>
+              </tr>
+              <tr className="service-item">
+                <td>1</td>
+                <td>dịch vụ 1</td>
+                <td>900000</td>
+                <td>2</td>
+                <td>18000</td>
+              </tr>
+              <tr className="service-item">
+                <td>1</td>
+                <td>dịch vụ 1</td>
+                <td>900000</td>
+                <td>2</td>
+                <td>18000</td>
+              </tr>
+            </tbody>
+          </table>
+          <span className="mt-4 text-right mr-10">Tổng tiền: 3000000 VND</span>
         </div>
         <div className="stipulation-term gap-2">
           <spam>{"Các Điều khoản quy định".toUpperCase()}</spam>
@@ -125,6 +173,15 @@ const Styled = styled.header`
       div {
         width: 30%;
         justify-content: space-between;
+      }
+    }
+    .information-service {
+      display: flex;
+      flex-direction: column;
+      div {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr; /* Equal width for each column */
+        gap: 10px;
       }
     }
   }

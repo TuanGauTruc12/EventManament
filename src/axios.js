@@ -2,18 +2,14 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API,
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*"
-  },
 });
 
-axios.interceptors.request.use(async (config) => {
-    //custom header,.... api
+instance.interceptors.request.use(async (config) => {
+  config.headers["Access-Control-Allow-Origin"] = "*";
   return config;
 });
 
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   (response) => {
     return response;
   },

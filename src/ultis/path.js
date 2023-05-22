@@ -17,3 +17,5 @@ export const pathAdmin = {
     CONTRACT_DETAIL_SHOW : "/admin/contract-detail-show",
     START:"*",
 }
+
+export const pathAPI = {events: "events", services: "services"}
