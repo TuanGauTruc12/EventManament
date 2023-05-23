@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
 
 const Contract = () => {
   document.title = "Nội dung hợp đồng";
@@ -10,7 +11,8 @@ const Contract = () => {
 
   const [gmail, setGmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  
+  const location = useLocation();
+  console.log(location.state);
 
   return (
     <Styled>
