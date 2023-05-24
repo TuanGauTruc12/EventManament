@@ -20,11 +20,8 @@ const Event = () => {
       <div id="event">
         {events.map((event, index) => (
           <EventItem
-            hinhSuKien={event?.hinhSuKien}
             key={index}
-            maSuKien={event.maSuKien}
-            moTaSuKien={event.moTaSuKien}
-            tenSuKien={event.tenSuKien}
+            event={event}
           />
         ))}
       </div>

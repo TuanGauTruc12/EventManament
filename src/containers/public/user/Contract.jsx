@@ -12,7 +12,11 @@ const Contract = () => {
   const [gmail, setGmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const location = useLocation();
-  console.log(location.state);
+  const service = location.state.services ?? [];
+  const event = location.state.event ?? {};
+
+  console.log(service);
+  console.log(event);
 
   return (
     <Styled>
@@ -98,33 +102,30 @@ const Contract = () => {
                 <th>Giá</th>
                 <th>Số lượng</th>
                 <th>Tổng tiền</th>
+                <th>Ghi chú</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="service-item">
-                <td>1</td>
-                <td>dịch vụ 1</td>
-                <td>900000</td>
-                <td>2</td>
-                <td>18000</td>
-              </tr>
-              <tr className="service-item">
-                <td>1</td>
-                <td>dịch vụ 1</td>
-                <td>900000</td>
-                <td>2</td>
-                <td>18000</td>
-              </tr>
-              <tr className="service-item">
-                <td>1</td>
-                <td>dịch vụ 1</td>
-                <td>900000</td>
-                <td>2</td>
-                <td>18000</td>
-              </tr>
+              {service.map((item, index) => (
+                <tr className="service-item">
+                  <td>{index + 1}</td>
+                  <td>{item.service.tenDichVu}</td>
+                  <td>{`${item.service.gia} / ${item.service.donViTinh}`}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.quantity * item.service.gia}</td>
+                  <td>{item.input}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
-          <span className="mt-4 text-right mr-10">Tổng tiền: 3000000 VND</span>
+          <span className="text-right mr-10">
+            Tổng tiền:
+            {service.reduce(
+              (accumulator, currentValue) => accumulator + (currentValue.quantity * currentValue.service.gia),
+              0
+            )}{" "}
+            VND
+          </span>
         </div>
         <div className="stipulation-term gap-2">
           <spam>{"Các Điều khoản quy định".toUpperCase()}</spam>
@@ -180,6 +181,7 @@ const Styled = styled.header`
     .information-service {
       display: flex;
       flex-direction: column;
+      gap: 12px;
       div {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr; /* Equal width for each column */
