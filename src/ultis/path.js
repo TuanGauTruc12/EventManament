@@ -6,6 +6,8 @@ export const pathUser = {
     EVENT: "event",
     SERVICE: "service",
     CONTRACT: "contract",
+    LOGIN: "login",
+    REGISTER: "register",
     START:"*",
 }
 

@@ -8,6 +8,8 @@ import {
   Event,
   Service,
   Contract,
+  Login,
+  Register,
 } from "./containers/public/user";
 import {
   ContractDetail,
@@ -29,6 +31,8 @@ function App() {
           <Route path={pathUser.SERVICE} element={<Service />} />
           <Route path={pathUser.SERVICE} element={<Service />} />
           <Route path={pathUser.CONTRACT} element={<Contract />} />
+          <Route path={pathUser.LOGIN} element={<Login />} />
+          <Route path={pathUser.REGISTER} element={<Register />} />
           <Route path={pathUser.START} element={<Home />} />
         </Route>
 

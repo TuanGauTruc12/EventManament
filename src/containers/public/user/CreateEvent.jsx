@@ -14,12 +14,18 @@ function CreateEvent() {
 
   const categoryTopic = ["Xe", "Bất động sản", "Đại học", "Học bổng"];
   */
+ 
 
   const navigate = useNavigate();
   const locationHook = useLocation();
   const [nameEvent, setNameEvent] = useState(() => {
     const event = locationHook.state ?? {};
     return event?.tenSuKien;
+  });
+
+  const [idEvent, setIdEvent] = useState(() => {
+    const event = locationHook.state ?? {};
+    return event?.maSuKien;
   });
 
   const [nameCompany, setNameCompany] = useState("");
@@ -52,9 +58,8 @@ function CreateEvent() {
         numberOfGuest,
         location,
         otherRequire,
+        idEvent
       };
-
-      console.log(dataEvent);
       navigate("/service", {state: dataEvent});
     }
   };

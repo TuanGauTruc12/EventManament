@@ -84,8 +84,7 @@ const Service = () => {
 
       //send data qua contract
       const service = {services: servicesSave, event: event} 
-      console.log(service);
-      //navigate("/contract", { state: service });
+      navigate("/contract", { state: service });
     }
   };
 

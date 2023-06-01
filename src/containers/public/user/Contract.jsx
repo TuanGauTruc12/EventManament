@@ -2,11 +2,11 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
+import moment from "moment";
 
 const Contract = () => {
   document.title = "Nội dung hợp đồng";
-
-  // const user = JSON.parse(localStorage.getItem("user") && {});
+ // const user = {} && JSON.parse(localStorage.getItem("user"));
   const [name, setName] = useState("");
 
   const [gmail, setGmail] = useState("");
@@ -14,15 +14,30 @@ const Contract = () => {
   const location = useLocation();
   const service = location.state.services ?? [];
   const event = location.state.event ?? {};
+  
+  const handlConfirm = () => {
+    console.log(event);
+    console.log(service);
+    //console.log(user_id);
+    //- số lượng service
+    //serviceID
+    //tong tien
+    //
+    //  -- thêm colum note- trong database    
+    //
+    //send 
+    //- event = idEVvnt
+    //- service = idService
+    //- user = idUser
+  //
 
-  console.log(service);
-  console.log(event);
+  };
 
   return (
     <Styled>
       <div id="contract">
         <span>Nội dung hợp đồng</span>
-        <span>Tên sự kiện</span>
+        <span>{event.nameEvent}</span>
         <div className="information-customer">
           <span className="decription">THÔNG TIN KHÁCH HÀNG</span>
           <div>
@@ -64,31 +79,31 @@ const Contract = () => {
           <div>
             <div>
               <span>Tên sự kiện:</span>
-              <span>Sự kiện 1</span>
+              <span>{event.nameEvent}</span>
             </div>
             <div>
               <span>Tên công ty:</span>
-              <span>Công ty ABC</span>
+              <span>{event.nameCompany}</span>
             </div>
           </div>
           <div>
             <div>
               <span>Thời gian bắt đầu:</span>
-              <span>1/5/2023</span>
+              <span>{moment(event.startTime).format("HH:mm DD-MM-YYYY")}</span>
             </div>
             <div>
               <span>Thời gian kết thúc:</span>
-              <span>20/5/2023</span>
+              <span>{moment(event.endTime).format("HH:mm DD-MM-YYYY")}</span>
             </div>
           </div>
           <div>
             <div>
               <span>Số lượng khách mời:</span>
-              <span>4</span>
+              <span>{event.numberOfGuest}</span>
             </div>
             <div>
               <span> Kinh phí:</span>
-              <span> 10000 vnd</span>
+              <span> {event.expense} vnd</span>
             </div>
           </div>
         </div>
@@ -107,7 +122,7 @@ const Contract = () => {
             </thead>
             <tbody>
               {service.map((item, index) => (
-                <tr className="service-item">
+                <tr key={index} className="service-item">
                   <td>{index + 1}</td>
                   <td>{item.service.tenDichVu}</td>
                   <td>{`${item.service.gia} / ${item.service.donViTinh}`}</td>
@@ -121,7 +136,8 @@ const Contract = () => {
           <span className="text-right mr-10">
             Tổng tiền:
             {service.reduce(
-              (accumulator, currentValue) => accumulator + (currentValue.quantity * currentValue.service.gia),
+              (accumulator, currentValue) =>
+                accumulator + currentValue.quantity * currentValue.service.gia,
               0
             )}{" "}
             VND
@@ -160,7 +176,9 @@ const Contract = () => {
           </label>
         </div>
         <div>
-          <button className="btn">Xác nhận</button>
+          <button onClick={() => handlConfirm()} className="btn">
+            Xác nhận
+          </button>
         </div>
       </div>
     </Styled>
