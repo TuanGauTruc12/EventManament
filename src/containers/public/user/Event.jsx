@@ -6,6 +6,7 @@ import { pathAPI } from "../../../ultis/path";
 document.title = "Sự kiện";
 const Event = () => {
   const [events, setEvents] = useState([]);
+  console.log(events);
 
   useEffect(() => {
     getAll(pathAPI.events).then((event) => {

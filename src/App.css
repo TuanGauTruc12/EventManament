@@ -219,7 +219,7 @@ img:hover {
   gap: 16px;
 }
 
-#create-event-admin div {
+#create-event-admin > div {
   display: flex;
   gap: 16px;
   justify-content: space-between;
@@ -240,4 +240,34 @@ img:hover {
 #error{
   color: red;
   font-size: 18px; 
+}
+
+body {
+  font-family: sans-serif;
+}
+
+#root {
+  margin: 1rem 4rem;
+}
+
+#root .ql-container {
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
+  background: #fefcfc;
+}
+
+/* Snow Theme */
+#root .ql-snow.ql-toolbar {
+  display: block;
+  background: #eaecec;
+  border-top-left-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+}
+
+#root .ql-editor {
+  min-height: 18em;
+}
+
+#content{
+  flex-direction: column;
 }

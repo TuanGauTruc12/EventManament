@@ -21,3 +21,5 @@ export const pathAdmin = {
 }
 
 export const pathAPI = {events: "events", services: "services"}
+
+export const title = {HOME: "Trang chủ", CREATE_EVENT_ADMIN: "Tạo sự kiện"}

@@ -1,9 +1,11 @@
 import React from "react";
-import icons from "../../../ultis/icons.js";
+import icons from "../../../ultis/icons";
 import { NavLink } from "react-router-dom";
 import { CardBottom, Slider } from "../../../components";
+import { title } from "../../../ultis/path";
 
 function Home() {
+  document.title = title.HOME;
   const { GiGraduateCap, AiFillPlusCircle } = icons;
   const arrayJsonText = [
     {
