@@ -1,12 +1,18 @@
-import React from "react";
+import React, { memo, useEffect, useState } from "react";
 import icons from "../../../ultis/icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useSubmit } from "react-router-dom";
 import { CardBottom, Slider } from "../../../components";
-import { title } from "../../../ultis/path";
+import { pathAPI, title } from "../../../ultis/path";
+import { getAll } from "../../../apis/BaseAPI";
 
 function Home() {
   document.title = title.HOME;
-  const { GiGraduateCap, AiFillPlusCircle } = icons;
+  const { TbCalendarEvent, AiFillPlusCircle } = icons;
+
+  const [events, setEvents] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [slider, setSlider] = useState([]);
+
   const arrayJsonText = [
     {
       image: "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
@@ -83,15 +89,44 @@ function Home() {
       }
     })
     .filter((item) => item !== undefined);
+
+  useEffect(() => {
+    let arrayTemp = [];
+
+    if (events.length > 0) {
+      arrayTemp = events
+        .map((event, index) => {
+          if (index < 5) {
+            return {
+              image: `${process.env.REACT_APP_API}/${process.env.REACT_APP_IMAGES}/${event.hinhSuKien}`,
+              alt: event.tenSuKien,
+            };
+          }
+        })
+        .filter((event) => event !== undefined);
+    }
+    setSlider(arrayTemp);
+  }, [events]);
+
+  console.log(slider);
+
+  useEffect(() => {
+    getAll(pathAPI.events).then((eventList) => {
+      if (eventList.status === 200 && eventList.statusText === "") {
+        setEvents(eventList.data);
+      }
+    });
+  }, []);
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-col mt-4">
         <div>
-          <Slider />
+          <Slider slider={slider} />
         </div>
         <div className="flex gap-3">
-          <GiGraduateCap
-            size={30}
+          <TbCalendarEvent
+            size={24}
             style={{ color: "white", background: "red" }}
           />
           <NavLink to={"/abc"} className="active">
@@ -151,8 +186,8 @@ function Home() {
 
       <div className="flex flex-col mt-4">
         <div className="flex gap-3">
-          <GiGraduateCap
-            size={30}
+          <TbCalendarEvent
+            size={24}
             style={{ color: "white", background: "red" }}
           />
           <NavLink to={"/abc"} className="active">
@@ -212,4 +247,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default memo(Home);

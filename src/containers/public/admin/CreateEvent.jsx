@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import styled from "styled-components";
-import { title } from "../../../ultis/path";
+import { pathAPI, title } from "../../../ultis/path";
 import Editor from "./Editor";
+import { getAll } from "../../../apis/BaseAPI";
 
 const CreateEvent = () => {
   document.title = title.CREATE_EVENT_ADMIN;
 
+  const [categoryEvent, setCategoryEvent] = useState([]);
+  const [selectCategoryEvent, setSelectCategoryEvent] = useState("");
   const [image, setImage] = useState();
   const [date, setDate] = useState("");
   const [nameEvent, setNameEvent] = useState("");
@@ -24,7 +27,7 @@ const CreateEvent = () => {
   const handleCreateEvent = () => {
     //check data before send api
     const content = document.querySelector(".ql-editor").innerHTML;
-    console.log(content);
+
     if (nameEvent.length === 0) {
       setError("Chưa nhập tên sự kiện");
     } else if (date.length === 0) {
@@ -39,14 +42,23 @@ const CreateEvent = () => {
       setError("Chưa nhập tin");
     } else if (imagePerson.length === 0) {
       setError("Chưa nhập ảnh");
+    } else if (selectCategoryEvent === 0 || selectCategoryEvent.length === 0) {
+      setError("Chưa chọn loại dịch vụ");
     } else if (content.length === 11) {
       setError("Chưa nhập nội dung sự kiện");
     } else {
       //call api create event
       setError();
-
     }
   };
+
+  useEffect(() => {
+    getAll(pathAPI.categoryService).then((category) => {
+      if (category.status === 200 && category.statusText === "") {
+        setCategoryEvent(category.data);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -141,8 +153,8 @@ const CreateEvent = () => {
           </div>
         </div>
 
-        <div style={{ width: "50%" }}>
-          <div style={{ width: "99%" }}>
+        <div>
+          <div>
             <label htmlFor="image-person">Ảnh: </label>
             <input
               value={imagePerson}
@@ -150,6 +162,26 @@ const CreateEvent = () => {
               type="text"
               id="image-person"
             />
+          </div>
+
+          <div>
+            <label htmlFor="category-event">Loại sự kiện</label>
+            <select
+              onChange={(e) => setSelectCategoryEvent(e.target.value)}
+              value={selectCategoryEvent}
+              style={{ width: "75%" }}
+              id="category-event"
+            >
+              <option value={0}>Chọn loại dịch vụ</option>
+              {categoryEvent.map((category) => (
+                <option
+                  key={category.maLoaiSuKien}
+                  value={category.maLoaiSuKien}
+                >
+                  {category.tenLoaiSuKien}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -224,11 +256,11 @@ const Styled = styled.div`
     width: 100%;
   }
 
-  .ql-editor p{
+  .ql-editor p {
     max-width: fit-content;
     width: fit-content;
     display: flex;
-}
+  }
 `;
 
 export default CreateEvent;
