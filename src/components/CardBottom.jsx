@@ -8,8 +8,8 @@ function CardBottom({ item }) {
       onClick={() => navigate("/abc")}
       className="w-1/4 justify-between flex flex-col cursor-pointer ml-2"
     >
-      <img src={item.image} alt={item.title} />
-      <span>{item.title}</span>
+      <img src={item?.image} alt={item?.title} />
+      <span>{item?.title}</span>
     </div>
   );
 }
