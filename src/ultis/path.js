@@ -8,6 +8,8 @@ export const pathUser = {
     CONTRACT: "contract",
     LOGIN: "login",
     REGISTER: "register",
+    DETAIL_EVENT: "detail-event/:idEvent",
+    CATEGORY: "category/:id",
     START:"*",
 }
 
@@ -23,3 +25,5 @@ export const pathAdmin = {
 export const pathAPI = {events: "events", services: "services", categoryService: "category-event"}
 
 export const title = {HOME: "Trang chủ", CREATE_EVENT_ADMIN: "Tạo sự kiện"}
+
+export const pathImage = `${process.env.REACT_APP_API}/${process.env.REACT_APP_IMAGES}`

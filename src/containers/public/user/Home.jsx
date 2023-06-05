@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
 import { Slider } from "../../../components";
-import { pathAPI, title } from "../../../ultis/path";
-import { getAll } from "../../../apis/BaseAPI";
+import { pathAPI, title } from "../../../ultis/path.js";
+import { getAll } from "../../../apis/BaseAPI.js";
 import CategoryEventItem from "../../../components/CategoryEventItem";
 
 function Home() {
@@ -138,6 +138,7 @@ function Home() {
                   "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
                 title: item.tenSuKien,
                 decription: item.moTaSuKien,
+                idEvent: item.maSuKien,
               };
             }),
             maLoaiSuKien: event.maLoaiSuKien,
@@ -169,9 +170,10 @@ function Home() {
       <CategoryEventItem arrayCardTop={arrayCardTop} /> */}
 
       {eventRender.length !== 0 ? (
-        eventRender.map((event) => {
+        eventRender.map((event, index) => {
           return (
             <CategoryEventItem
+              key={index}
               idCategory={event.maLoaiSuKien}
               nameCategory={event.tenLoaiSuKien}
               arrayCardTop={event.events
@@ -182,7 +184,9 @@ function Home() {
                     return undefined;
                   }
                 })
-                .filter((item) => item !== undefined)}
+                .filter((item) => {
+                  return item !== undefined;
+                })}
               arrayCardBottom={
                 event.events.length >= 5
                   ? event.events

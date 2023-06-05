@@ -8,7 +8,7 @@ function Header() {
 
   const { BiHome, BiSearch, FaUser } = icons;
   return (
-    <div className="flex justify-between mt-2 items-center header">
+    <div className="flex justify-between mt-2 items-center header mb-4">
       <div className="flex gap-4">
         <BiHome
           className="cursor-pointer"

@@ -1,10 +1,17 @@
 import React from "react";
 import icons from "../ultis/icons.js";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import CardBottom from "./CardBottom";
 
-const CategoryEventItem = ({ arrayCardTop, arrayCardBottom, idCategory, nameCategory }) => {
+const CategoryEventItem = ({
+  arrayCardTop,
+  arrayCardBottom,
+  idCategory,
+  nameCategory,
+  event,
+}) => {
   const { TbCalendarEvent, AiFillPlusCircle } = icons;
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -24,7 +31,12 @@ const CategoryEventItem = ({ arrayCardTop, arrayCardBottom, idCategory, nameCate
               src={arrayCardTop.find((item, index) => index === 0)?.image}
               alt={arrayCardTop.find((item, index) => index === 0)?.title}
             />
-            <span className="active">
+            <span
+              onClick={() =>
+                navigate("/detail-event/" + arrayCardTop.find((item, index) => index === 0)?.idEvent)
+              }
+              className="active"
+            >
               {arrayCardTop.find((item, index) => index === 0)?.title}
             </span>
             <span>
@@ -37,7 +49,9 @@ const CategoryEventItem = ({ arrayCardTop, arrayCardBottom, idCategory, nameCate
                 src={arrayCardTop.find((item, index) => index === 1)?.image}
                 alt={arrayCardTop.find((item, index) => index === 1)?.title}
               />
-              <span className="font-bold cursor-pointer">
+              <span onClick={() =>
+                navigate(`/detail-event/${arrayCardTop.find((item, index) => index === 0)?.idEvent}`)
+              } className="font-bold cursor-pointer">
                 {arrayCardTop.find((item, index) => index === 1)?.title}
               </span>
             </div>
@@ -50,7 +64,8 @@ const CategoryEventItem = ({ arrayCardTop, arrayCardBottom, idCategory, nameCate
                     key={index}
                     className="flex flex-col border-b-2 border-solid border-gray-200"
                   >
-                    <span className="cursor-pointer">{item.title}</span>
+                    <span 
+                     className="cursor-pointer">{item.title}</span>
                   </div>
                 );
               })}
@@ -66,11 +81,13 @@ const CategoryEventItem = ({ arrayCardTop, arrayCardBottom, idCategory, nameCate
             <div className="flex justify-end">
               <div className="w-fit flex cursor-pointer items-center mt-4 text-red-400 text-sm gap-1">
                 <AiFillPlusCircle color="red" size={24} />
-                <span>Xem tất cả</span>
+                <span onClick={() => {}}>Xem tất cả</span>
               </div>
             </div>
           </>
-        ): <></>}
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

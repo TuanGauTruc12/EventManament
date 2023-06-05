@@ -9,7 +9,9 @@ import {
   Service,
   Contract,
   Login,
+  DetailEvent,
   Register,
+  CategoryList,
 } from "./containers/public/user";
 import {
   ContractDetail,
@@ -33,6 +35,8 @@ function App() {
           <Route path={pathUser.CONTRACT} element={<Contract />} />
           <Route path={pathUser.LOGIN} element={<Login />} />
           <Route path={pathUser.REGISTER} element={<Register />} />
+          <Route path={pathUser.CATEGORY} element={<CategoryList />} />
+          <Route path={pathUser.DETAIL_EVENT} element={<DetailEvent />}/>
           <Route path={pathUser.START} element={<Home />} />
         </Route>
 

@@ -18,7 +18,7 @@ const EventItem = ({ event }) => {
         alt="img"
         onClick={()=>handleEventItem(event)}
       />
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-3">
         <span>{event?.tenSuKien}</span>
         <span>{event?.moTaSuKien}</span>
       </div>

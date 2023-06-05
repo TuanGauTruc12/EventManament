@@ -27,7 +27,7 @@ const CreateEvent = () => {
   const handleCreateEvent = () => {
     //check data before send api
     const content = document.querySelector(".ql-editor").innerHTML;
-
+    console.log(content);
     if (nameEvent.length === 0) {
       setError("Chưa nhập tên sự kiện");
     } else if (date.length === 0) {

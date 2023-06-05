@@ -9,7 +9,7 @@ function Public() {
         <Header />
         <Outlet />
       </div>
-      <div className="mx-[132px] mt-8">
+      <div className="mx-[132px] mt-4">
       <Footer/>
       </div>
     </div>
