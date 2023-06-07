@@ -1,54 +1,38 @@
 import React, { useState } from "react";
 import { EventItem } from "../../../components";
 import { useLocation, useNavigate } from "react-router-dom";
+import moment from "moment/moment";
 
 function CreateEvent() {
-  /*
-  const categoryEvents = [
-    "Tiệc cưới",
-    "Tốt nghiệp",
-    "Tân gia",
-    "Ra mắt sản phẩm",
-    "Kỷ niệm thành lập",
-  ];
-
-  const categoryTopic = ["Xe", "Bất động sản", "Đại học", "Học bổng"];
-  */
- 
+  document.title = "Tạo sự kiện";
 
   const navigate = useNavigate();
   const locationHook = useLocation();
-  const [nameEvent, setNameEvent] = useState(() => {
-    const event = locationHook.state ?? {};
-    return event?.tenSuKien;
-  });
-
-  const [idEvent, setIdEvent] = useState(() => {
-    const event = locationHook.state ?? {};
-    return event?.maSuKien;
+  const [event, setEvent] = useState(() => {
+    const eventTemp = locationHook.state?.event;
+    return eventTemp;
   });
 
   const [nameCompany, setNameCompany] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
   const [expense, setExpense] = useState("");
   const [numberOfGuest, setNumberOfGuest] = useState("");
-  const [location, setLocation] = useState("");
   const [otherRequire, setOtherRequire] = useState("");
   const [error, setError] = useState("");
+
   const handleContinue = () => {
     if (
-      nameEvent.length === 0 ||
       nameCompany.length === 0 ||
-      startTime.length === 0 ||
-      endTime.length === 0 ||
       expense.length === 0 ||
-      numberOfGuest.length === 0 ||
-      location.length === 0
+      numberOfGuest.length === 0
     ) {
       setError("Vui lòng nhập đầy đủ dữ liệu");
     } else {
       setError("");
+      const startTime = moment(event?.ngayToChuc).format("YYYY-MM-DDTHH:mm");
+      const endTime = moment(event?.ngayKetThuc).format("YYYY-MM-DDTHH:mm");
+      const idEvent = event?.maSuKien;
+      const nameEvent = event?.tenSuKien;
+      const location = event?.diaDiem;
       const dataEvent = {
         nameEvent,
         nameCompany,
@@ -58,9 +42,9 @@ function CreateEvent() {
         numberOfGuest,
         location,
         otherRequire,
-        idEvent
+        idEvent,
       };
-      navigate("/service", {state: dataEvent});
+      navigate("/service", { state: dataEvent });
     }
   };
 
@@ -71,9 +55,8 @@ function CreateEvent() {
           <div>
             <label htmlFor="nameEvent">Tên sự kiện</label>
             <input
-              value={nameEvent}
-              onChange={(e) => setNameEvent(e.target.value)}
-              type="text"
+              value={event.tenSuKien}
+              disabled
               id="nameEvent"
             />
           </div>
@@ -118,24 +101,24 @@ function CreateEvent() {
           <div>
             <label htmlFor="time-start">Thời gian bắt đầu</label>
             <input
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
+              value={event === undefined ? "" :  moment(event?.ngayToChuc).format("YYYY-MM-DDTHH:mm")}
+              disabled
               type="datetime-local"
-              min={new Date()
-                .toISOString()
-                .slice(0, new Date().toISOString().lastIndexOf(":"))}
+              // min={new Date()
+              //   .toISOString()
+              //   .slice(0, new Date().toISOString().lastIndexOf(":"))}
               id="time-start"
             />
           </div>
           <div>
             <label htmlFor="time-end">Thời gian kết thúc</label>
             <input
-              value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
+              value={event === undefined ? "" :  moment(event?.ngayKetThuc).format("YYYY-MM-DDTHH:mm")}
+              disabled
               type="datetime-local"
-              min={new Date()
-                .toISOString()
-                .slice(0, new Date().toISOString().lastIndexOf(":"))}
+              // min={new Date()
+              //   .toISOString()
+              //   .slice(0, new Date().toISOString().lastIndexOf(":"))}
               id="time-end"
             />
           </div>
@@ -167,8 +150,8 @@ function CreateEvent() {
           <div>
             <label htmlFor="location">Địa điểm</label>
             <textarea
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              value={event?.diaDiem}
+              disabled
               rows="3"
               type="text"
               id="location"
@@ -189,7 +172,7 @@ function CreateEvent() {
           </div>
         </div>
         <div>{<span id="error">{error}</span>}</div>
-        <div style={{marginTop: "0"}}>
+        <div style={{ marginTop: "0" }}>
           <div
             style={{
               width: "100%",

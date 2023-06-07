@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import icons from "../../../ultis/icons";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getEventByID } from "../../../apis/EventAPI";
 import moment from "moment";
+import {Error} from './index'
 
 const DetailEvent = () => {
   const { LuCalendarDays } = icons;
   const { idEvent } = useParams();
   document.title = "Chi tiết sự kiện";
-  const [event, setEvent] = useState();
+  const [event, setEvent] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     getEventByID(idEvent).then((evnetServer) => {
-      if (evnetServer.status === 200 && evnetServer.statusText === "") {
+      if (evnetServer.status === 200 && evnetServer.statusText === "" && evnetServer.data != "") {
         setEvent(evnetServer.data);
+      } else {
+        setEvent(undefined);
       }
     });
   }, []);
@@ -23,7 +27,7 @@ const DetailEvent = () => {
     <Styled>
       <div id="detail-event">
         {event === undefined ? (
-          <></>
+          <Error />
         ) : (
           <>
             <span className="title">{event.tenSuKien}</span>
@@ -43,6 +47,11 @@ const DetailEvent = () => {
             >
               <span>Tin: {event.tin}</span>
               <span>Ảnh: {event.anh}</span>
+            </div>
+            <div className="flex justify-center mt-2">
+              <button onClick={()=>{
+                navigate('/create-event', {state: {event: event}});
+              }} className="btn">Tạo sự kiện</button>
             </div>
           </>
         )}
@@ -76,6 +85,7 @@ const Styled = styled.div`
       opacity: 1;
       cursor: default;
     }
+
   }
 `;
 

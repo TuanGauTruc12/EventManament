@@ -139,6 +139,7 @@ img:hover {
 
 #service,
 #contract,
+#event,
 #contract-detail {
   margin-top: 12px;
   display: flex;
@@ -148,18 +149,21 @@ img:hover {
 }
 
 #service .services,
-#contract .contracts {
+#contract .contracts,
+#event .events {
   text-align: center;
 }
 
 #service .services,
-#contract .contracts {
+#contract .contracts,
+#event .events {
   width: 100%;
   padding: 0 32px;
 }
 
 #service .services,
-#contract .contracts {
+#contract .contracts,
+#event .events {
   border-collapse: separate;
   border-spacing: 0;
 }
@@ -167,32 +171,40 @@ img:hover {
 #service .services td,
 #service .services th,
 #contract .contracts td,
-#contract .contracts th {
+#contract .contracts th,
+#event .events td,
+#event .events th {
   border: 1px solid black;
   padding: 8px;
 }
 
 #service .services tr:first-child th,
-#contract .contracts tr:first-child th {
+#contract .contracts tr:first-child th,
+#event .events tr:first-child th  {
   border-top: none;
 }
 
 #service .services tr:last-child td,
-#contract .contracts tr:last-child td {
+#contract .contracts tr:last-child td,
+#event .events tr:last-child td {
   border-bottom: none;
 }
 
 #service .services tr td:first-child,
 #service .services tr th:first-child,
 #contract .contracts tr td:first-child,
-#contract .contracts tr th:first-child {
+#contract .contracts tr th:first-child,
+#event .events tr td:first-child,
+#event .events tr th:first-child {
   border-left: none;
 }
 
 #service .services tr td:last-child,
 #service .services tr th:last-child,
 #contract .contracts tr td:last-child,
-#contract .contracts tr th:last-child {
+#contract .contracts tr th:last-child,
+#event .events tr td:last-child,
+#event .events tr th:last-child {
   border-right: none;
 }
 

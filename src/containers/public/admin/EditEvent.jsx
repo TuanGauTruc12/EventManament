@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
+import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { pathAPI, title } from "../../../ultis/path";
 import Editor from "./Editor";
 import { getAll } from "../../../apis/BaseAPI";
-import { createEvent } from "../../../apis/EventAPI";
+import { createEvent, getEventByID, updateEvent } from "../../../apis/EventAPI";
 import moment from "moment/moment";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { memo } from "react";
 
-const CreateEvent = () => {
-  document.title = title.CREATE_EVENT_ADMIN;
+function EditEvent() {
+  const { id } = useParams();
+  document.title = title.EDIT_EVENT;
+  const [event, setEvent] = useState();
+
   const navigate = useNavigate();
   const [categoryEvent, setCategoryEvent] = useState([]);
   const [selectCategoryEvent, setSelectCategoryEvent] = useState("");
@@ -28,7 +34,7 @@ const CreateEvent = () => {
     setImage(file);
   };
 
-  const handleCreateEvent = () => {
+  const handleEditEvent = () => {
     //check data before send api
     const content = document.querySelector(".ql-editor").innerHTML;
     if (nameEvent.length === 0) {
@@ -37,8 +43,6 @@ const CreateEvent = () => {
       setError("Chưa chọn ngày tổ chức");
     } else if (dateEnd.length === 0) {
       setError("Chưa chọn ngày kết thúc");
-    } else if (image === undefined) {
-      setError("Chưa chọn hình ảnh");
     } else if (decriptionEvent.length === 0) {
       setError("Chưa nhập mô tả");
     } else if (location.length === 0) {
@@ -53,12 +57,10 @@ const CreateEvent = () => {
       setError("Chưa nhập nội dung sự kiện");
     } else {
       setError();
-      //- send dât dạng multifile
-      //- send tên image
-      //- send Multifile with abtribult file
       const eventForm = {
+        maSuKien: event.maSuKien,
         tenSuKien: nameEvent,
-        hinhSuKien: image.name,
+        hinhSuKien: image === undefined ? event?.hinhSuKien : image.name,
         moTaSuKien: decriptionEvent,
         ngayToChuc: moment(dateStart).format("YYYY-MM-DD HH:mm:ss"),
         ngayKetThuc: moment(dateEnd).format("YYYY-MM-DD HH:mm:ss"),
@@ -72,9 +74,13 @@ const CreateEvent = () => {
       formData.append("suKien", JSON.stringify(eventForm));
       formData.append("file", image);
 
-      createEvent(formData).then((eventRequest) => {
-        if (eventRequest.data === "SuccessFully" && eventRequest.status === 200 && eventRequest.statusText === "") {
-          navigate("/admin/event-list")
+      updateEvent(formData).then((eventRequest) => {
+        if (
+          eventRequest.data === "SuccessFully" &&
+          eventRequest.status === 200 &&
+          eventRequest.statusText === ""
+        ) {
+          navigate("/admin/event-list");
         }
       });
     }
@@ -89,10 +95,31 @@ const CreateEvent = () => {
   }, []);
 
   useEffect(() => {
+    getEventByID(id).then((response) => {
+      if (response.status === 200 && response.statusText === "") {
+        setEvent(response.data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     return () => {
       image && URL.revokeObjectURL(image.preview);
     };
   }, [image]);
+
+  useEffect(() => {
+    setNameEvent(event?.tenSuKien);
+    setDecriptionEvent(event?.moTaSuKien);
+    setLocation(event?.diaDiem);
+    setNewEvent(event?.tin);
+    setImagePerson(event?.anh);
+    setSelectCategoryEvent(event?.loaiSuKien?.maLoaiSuKien);
+    setDateStart(moment(event?.ngayToChuc).format("YYYY-MM-DDTHH:mm:ss.SSS"));
+    setDateEnd(moment(event?.ngayKetThuc).format("YYYY-MM-DDTHH:mm:ss.SSS"));
+    if (document.querySelector(".ql-editor") !== null)
+      document.querySelector(".ql-editor").innerHTML = `${event?.noiDung}`;
+  }, [event]);
 
   return (
     <Styled>
@@ -112,13 +139,21 @@ const CreateEvent = () => {
             <label htmlFor="imageCoverEvent">Hình bìa: </label>
 
             {image === undefined ? (
-              <input
-                multiple
-                accept="image/*"
-                type="file"
-                id="imageCoverEvent"
-                onChange={(e) => handleChooseImage(e)}
-              />
+              <div style={{ width: "75%" }} className="flex flex-col gap-4">
+                <input
+                  multiple
+                  accept="image/*"
+                  type="file"
+                  id="imageCoverEvent"
+                  onChange={(e) => handleChooseImage(e)}
+                />
+                <img
+                  width={150}
+                  height={150}
+                  src={`${process.env.REACT_APP_API}/${process.env.REACT_APP_IMAGES}/${event?.hinhSuKien}`}
+                  alt={event?.hinhSuKien}
+                />
+              </div>
             ) : (
               <div style={{ width: "75%" }} className="flex flex-col gap-4">
                 <input
@@ -247,15 +282,15 @@ const CreateEvent = () => {
             </div>
           )}
           <div style={{ justifyContent: "center" }}>
-            <button onClick={handleCreateEvent} className="btn">
-              Tạo sự kiện
+            <button onClick={handleEditEvent} className="btn">
+              Sửa sự kiện
             </button>
           </div>
         </div>
       </div>
     </Styled>
   );
-};
+}
 
 const Styled = styled.div`
   #create-event-admin {
@@ -312,4 +347,4 @@ const Styled = styled.div`
   }
 `;
 
-export default CreateEvent;
+export default memo(EditEvent);

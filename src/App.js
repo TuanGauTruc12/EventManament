@@ -19,6 +19,8 @@ import {
   ContractList,
   CreateEventAdmin,
   PublicAdmin,
+  EventList,
+  EditEvent
 } from "./containers/public/admin/index";
 
 function App() {
@@ -43,6 +45,8 @@ function App() {
         <Route path={pathAdmin.PUBLIC} element={<PublicAdmin />}>
           <Route path={pathAdmin.COMTRACT_LIST} element={<ContractList />} />
           <Route path={pathAdmin.CREATE_EVENT} element={<CreateEventAdmin />} />
+          <Route path={pathAdmin.LIST_EVENT} element={<EventList />} />
+          <Route path={pathAdmin.EDIT_EVENT} element={<EditEvent />} />
           <Route
             path={pathAdmin.CONTRACT_DETAIL}
             element={<ContractDetail/>}

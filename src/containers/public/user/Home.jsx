@@ -13,95 +13,19 @@ function Home() {
   const [eventRender, setEventRender] = useState([]);
 
   useEffect(() => {
+    
     getAll(pathAPI.events).then((eventList) => {
       if (eventList.status === 200 && eventList.statusText === "") {
         setEvents(eventList.data);
       }
     });
 
-    getAll(pathAPI.categoryService).then((category) => {
+    getAll(pathAPI.category).then((category) => {
       if (category.status === 200 && category.statusText === "") {
         setCategories(category.data);
       }
     });
   }, []);
-
-  // const arrayJsonText = [
-  //   {
-  //     image: "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
-  //     title: "Chinh phục nghề Logistics: Cần có sự chuẩn bị nghiêm túc từ sớm",
-  //     decription:
-  //       "Ngày 11/4, series “Ra chơi, hóng chuyện nghề” tiếp tục phát sóng tập 14 “Theo nghề Logistics, người trẻ cần sẵn sàng với những thử thách gì?” chia sẻ về những khó khăn cũng như bước chuẩn bị cho ngành nghề Logistics.",
-  //   },
-  //   {
-  //     image: "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
-  //     title: "Chinh phục nghề Logistics: Cần có sự chuẩn bị nghiêm túc từ sớm",
-  //     decription:
-  //       "Ngày 11/4, series “Ra chơi, hóng chuyện nghề” tiếp tục phát sóng tập 14 “Theo nghề Logistics, người trẻ cần sẵn sàng với những thử thách gì?” chia sẻ về những khó khăn cũng như bước chuẩn bị cho ngành nghề Logistics.",
-  //   },
-  //   {
-  //     image: "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
-  //     title: "Chinh phục nghề Logistics: Cần có sự chuẩn bị nghiêm túc từ sớm",
-  //     decription:
-  //       "Ngày 11/4, series “Ra chơi, hóng chuyện nghề” tiếp tục phát sóng tập 14 “Theo nghề Logistics, người trẻ cần sẵn sàng với những thử thách gì?” chia sẻ về những khó khăn cũng như bước chuẩn bị cho ngành nghề Logistics.",
-  //   },
-  //   {
-  //     image: "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
-  //     title: "Chinh phục nghề Logistics: Cần có sự chuẩn bị nghiêm túc từ sớm",
-  //     decription:
-  //       "Ngày 11/4, series “Ra chơi, hóng chuyện nghề” tiếp tục phát sóng tập 14 “Theo nghề Logistics, người trẻ cần sẵn sàng với những thử thách gì?” chia sẻ về những khó khăn cũng như bước chuẩn bị cho ngành nghề Logistics.",
-  //   },
-  //   {
-  //     image: "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
-  //     title: "Chinh phục nghề Logistics: Cần có sự chuẩn bị nghiêm túc từ sớm",
-  //     decription:
-  //       "Ngày 11/4, series “Ra chơi, hóng chuyện nghề” tiếp tục phát sóng tập 14 “Theo nghề Logistics, người trẻ cần sẵn sàng với những thử thách gì?” chia sẻ về những khó khăn cũng như bước chuẩn bị cho ngành nghề Logistics.",
-  //   },
-  //   {
-  //     image: "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
-  //     title: "Chinh phục nghề Logistics: Cần có sự chuẩn bị nghiêm túc từ sớm",
-  //     decription:
-  //       "Ngày 11/4, series “Ra chơi, hóng chuyện nghề” tiếp tục phát sóng tập 14 “Theo nghề Logistics, người trẻ cần sẵn sàng với những thử thách gì?” chia sẻ về những khó khăn cũng như bước chuẩn bị cho ngành nghề Logistics.",
-  //   },
-  //   {
-  //     image: "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
-  //     title: "Chinh phục nghề Logistics: Cần có sự chuẩn bị nghiêm túc từ sớm",
-  //     decription:
-  //       "Ngày 11/4, series “Ra chơi, hóng chuyện nghề” tiếp tục phát sóng tập 14 “Theo nghề Logistics, người trẻ cần sẵn sàng với những thử thách gì?” chia sẻ về những khó khăn cũng như bước chuẩn bị cho ngành nghề Logistics.",
-  //   },
-  //   {
-  //     image: "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
-  //     title: "Chinh phục nghề Logistics: Cần có sự chuẩn bị nghiêm túc từ sớm",
-  //     decription:
-  //       "Ngày 11/4, series “Ra chơi, hóng chuyện nghề” tiếp tục phát sóng tập 14 “Theo nghề Logistics, người trẻ cần sẵn sàng với những thử thách gì?” chia sẻ về những khó khăn cũng như bước chuẩn bị cho ngành nghề Logistics.",
-  //   },
-  //   {
-  //     image: "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
-  //     title: "Chinh phục nghề Logistics: Cần có sự chuẩn bị nghiêm túc từ sớm",
-  //     decription:
-  //       "Ngày 11/4, series “Ra chơi, hóng chuyện nghề” tiếp tục phát sóng tập 14 “Theo nghề Logistics, người trẻ cần sẵn sàng với những thử thách gì?” chia sẻ về những khó khăn cũng như bước chuẩn bị cho ngành nghề Logistics.",
-  //   },
-  // ];
-
-  // const arrayCardTop = arrayJsonText
-  //   .map((item, index) => {
-  //     if (index >= 0 && index <= 4) {
-  //       return item;
-  //     } else {
-  //       return undefined;
-  //     }
-  //   })
-  //   .filter((item) => item !== undefined);
-
-  // const arrayCardBottom = arrayJsonText
-  //   .map((item, index) => {
-  //     if (index >= 5 && index <= 8) {
-  //       return item;
-  //     } else {
-  //       return undefined;
-  //     }
-  //   })
-  //   .filter((item) => item !== undefined);
 
   useEffect(() => {
     let arrayImagesTemp = [];
@@ -162,13 +86,6 @@ function Home() {
         <Slider slider={slider} />
       </div>
 
-      {/* <CategoryEventItem
-        arrayCardBottom={arrayCardBottom}
-        arrayCardTop={arrayCardTop}
-      />
-
-      <CategoryEventItem arrayCardTop={arrayCardTop} /> */}
-
       {eventRender.length !== 0 ? (
         eventRender.map((event, index) => {
           return (
@@ -210,4 +127,4 @@ function Home() {
   );
 }
 
-export default memo(Home);
+export default Home;

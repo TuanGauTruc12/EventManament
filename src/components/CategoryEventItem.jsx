@@ -81,7 +81,7 @@ const CategoryEventItem = ({
             <div className="flex justify-end">
               <div className="w-fit flex cursor-pointer items-center mt-4 text-red-400 text-sm gap-1">
                 <AiFillPlusCircle color="red" size={24} />
-                <span onClick={() => {}}>Xem tất cả</span>
+                <span onClick={() => {navigate(`/category/${idCategory}`)}}>Xem tất cả</span>
               </div>
             </div>
           </>
