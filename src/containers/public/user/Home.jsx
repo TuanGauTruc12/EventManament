@@ -59,7 +59,7 @@ function Home() {
             events: event.events.map((item) => {
               return {
                 image:
-                  "https://file1.hutech.edu.vn/file/news/2107391681460994.png",
+                  `${process.env.REACT_APP_API}/${process.env.REACT_APP_IMAGES}/${item?.hinhSuKien}`,
                 title: item.tenSuKien,
                 decription: item.moTaSuKien,
                 idEvent: item.maSuKien,
