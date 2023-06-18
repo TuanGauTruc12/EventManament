@@ -23,7 +23,7 @@ const Register = () => {
     }
     const parent = element.parentNode;
     const span = document.createElement("span");
-    span.className = "text-3xl text-red-500 mt-2";
+    span.className = "text-lg text-red-500 mt-2 font-bold";
     span.innerHTML = error;
 
     parent.appendChild(span);

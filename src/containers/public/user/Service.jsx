@@ -79,11 +79,13 @@ const Service = () => {
           const matchingItem3 = textareaValues
             .filter((item3) => item3 !== undefined)
             .find((item3) => item3.id === item1.id);
-          return {service, ...matchingItem2, ...matchingItem3 };
+          return { service, ...matchingItem2, ...matchingItem3 };
         });
 
+        console.log(servicesSave);
+
       //send data qua contract
-      const service = {services: servicesSave, event: event} 
+      const service = { services: servicesSave, event: event };
       navigate("/contract", { state: service });
     }
   };
@@ -108,8 +110,8 @@ const Service = () => {
       if (checked === undefined) {
         return 0;
       } else if (
-        quantityValues.length === 0 ||
-        quantityValues.find((quantity) => service.maDichVu === quantity.id) ===
+        quantityValues.length === 0 &&
+        quantityValues.find((quantity) => service.maDichVu === quantity?.id) ===
           undefined
       ) {
         return 1 * service.gia;
@@ -192,7 +194,7 @@ const Service = () => {
   return (
     <div id="service">
       <span>Bạn muốn chúng tôi cung câp các dịch vụ gì?</span>
-      <table className="services">
+      <table className="services mt-4">
         <thead>
           <tr>
             <th>STT</th>

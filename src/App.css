@@ -1,20 +1,16 @@
-:root{
-  --background-color: #f3e0e6;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-}
-
-body{
-  background-color: var(--background-color);
+  font-family: 'Roboto', sans-serif;
 }
 
 input,
 textarea,
 select {
+  background-color: white!important;
   border: 2px solid #979797;
   background-color: var(--background-color);
 }
@@ -115,6 +111,10 @@ img:hover {
   background-color: greenyellow;
   padding: 8px 24px;
   width: fit-content;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .btn:hover{
@@ -142,7 +142,6 @@ img:hover {
 #event,
 #contract-detail {
   margin-top: 12px;
-  display: flex;
   flex-direction: column;
   gap: 12px;
   text-align: center;
@@ -150,20 +149,23 @@ img:hover {
 
 #service .services,
 #contract .contracts,
-#event .events {
+#event .events, 
+#category .categories {
   text-align: center;
 }
 
 #service .services,
 #contract .contracts,
-#event .events {
+#event .events,
+#category .categories {
   width: 100%;
   padding: 0 32px;
 }
 
 #service .services,
 #contract .contracts,
-#event .events {
+#event .events,
+#category .categories {
   border-collapse: separate;
   border-spacing: 0;
 }
@@ -173,20 +175,24 @@ img:hover {
 #contract .contracts td,
 #contract .contracts th,
 #event .events td,
-#event .events th {
+#event .events th,
+#category .categories td,
+#category .categories th {
   border: 1px solid black;
   padding: 8px;
 }
 
 #service .services tr:first-child th,
 #contract .contracts tr:first-child th,
-#event .events tr:first-child th  {
+#event .events tr:first-child th,
+#category .categories tr:first-child th  {
   border-top: none;
 }
 
 #service .services tr:last-child td,
 #contract .contracts tr:last-child td,
-#event .events tr:last-child td {
+#event .events tr:last-child td,
+#category .categories tr:last-child td {
   border-bottom: none;
 }
 
@@ -194,8 +200,8 @@ img:hover {
 #service .services tr th:first-child,
 #contract .contracts tr td:first-child,
 #contract .contracts tr th:first-child,
-#event .events tr td:first-child,
-#event .events tr th:first-child {
+#category .categories tr td:first-child,
+#category .categories tr th:first-child {
   border-left: none;
 }
 
@@ -204,7 +210,9 @@ img:hover {
 #contract .contracts tr td:last-child,
 #contract .contracts tr th:last-child,
 #event .events tr td:last-child,
-#event .events tr th:last-child {
+#event .events tr th:last-child,
+#category .categories tr td:last-child,
+#category .categories tr th:last-child {
   border-right: none;
 }
 
@@ -226,7 +234,7 @@ img:hover {
 #contract .stipulation-term {
   display: flex;
   flex-direction: column;
-  margin-top: 4px;
+  margin-top: 24px;
 }
 
 #create-event-admin {
@@ -262,10 +270,6 @@ body {
   font-family: sans-serif;
 }
 
-#root {
-  margin: 1rem 4rem;
-}
-
 #root .ql-container {
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
@@ -286,4 +290,57 @@ body {
 
 #content{
   flex-direction: column;
+}
+
+
+/*Modal*/
+.modal{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-container{
+  background: white;
+  position: relative;
+  animation: modalShow ease .6s;
+}
+
+.modal-header{
+  background-color: rgb(156, 204, 101);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-heading-text{
+  margin-left: 8px;
+  font-weight: 400;
+  font-family: "Segoe UI",Arial,sans-serif;
+}
+
+.modal-close{
+  position: absolute;
+  cursor: pointer;
+  right: 0;
+  top: 0;
+  padding: 16px;
+  opacity: 0.7;
+  font-size: 20px;
+}
+
+.modal-close:hover{
+  background-color: #ccc;
+  opacity: 1;
+  font-size: 24px;
+}
+
+.modal-body{
+  padding: 16px;
 }

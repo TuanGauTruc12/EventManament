@@ -6,11 +6,11 @@ import CategoryEventItem from "../../../components/CategoryEventItem";
 
 function Home() {
   document.title = title.HOME;
-
-  const [events, setEvents] = useState([]);
   const [slider, setSlider] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [eventRender, setEventRender] = useState([]);
+  
+  const [categories, setCategories] = useState([]);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     
@@ -39,6 +39,8 @@ function Home() {
               image: `${process.env.REACT_APP_API}/${process.env.REACT_APP_IMAGES}/${event.hinhSuKien}`,
               alt: event.tenSuKien,
             };
+          }else{
+            return undefined;
           }
         })
         .filter((event) => event !== undefined);
@@ -47,10 +49,10 @@ function Home() {
         .map((category) => {
           return {
             events: events.filter(
-              (event) => category.maLoaiSuKien === event.loaiSuKien.maLoaiSuKien
+              (event) => category?.maLoaiSuKien === event.loaiSuKien?.maLoaiSuKien
             ),
-            maLoaiSuKien: category.maLoaiSuKien,
-            tenLoaiSuKien: category.tenLoaiSuKien,
+            maLoaiSuKien: category?.maLoaiSuKien,
+            tenLoaiSuKien: category?.tenLoaiSuKien,
           };
         })
         .filter((event) => event.events.length !== 0)
@@ -70,15 +72,16 @@ function Home() {
           };
         });
 
-      setEventRender(arrayEventsTemp);
-    }
-
-    setSlider(arrayImagesTemp);
+        setEventRender(arrayEventsTemp);
+      }
+      
+      setSlider(arrayImagesTemp);
+    
     return () => {
       arrayImagesTemp = [];
       arrayEventsTemp = [];
     };
-  }, [events]);
+  }, [events, categories]);
 
   return (
     <div className="flex flex-col">
@@ -127,4 +130,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default memo(Home);

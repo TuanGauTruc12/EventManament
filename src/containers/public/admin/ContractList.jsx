@@ -1,6 +1,9 @@
 import React from "react";
 
 function ContractList() {
+
+  document.title = "Danh sách hợp đồng";
+
   return (
     <div id="contract">
       <table className="contracts">

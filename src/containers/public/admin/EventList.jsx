@@ -5,10 +5,10 @@ import EventItemAdmin from "../../../components/EventItemAdmin";
 import ReactPaginate from "react-paginate";
 import icons from "../../../ultis/icons";
 import { useNavigate } from "react-router-dom";
-import { pathAdmin } from "../../../ultis/path";
+import { pathAdmin, title } from "../../../ultis/path";
 
 const EventList = () => {
-  document.title = "Danh sách sự kiện";
+  document.title = title.LIST_EVENT;
   const itemsPerPage = 10;
   const navigate = useNavigate();
   const { AiOutlineArrowRight, AiOutlineArrowLeft } = icons;
@@ -95,6 +95,9 @@ const EventList = () => {
 };
 
 const Styled = styled.div`
+  #event{
+    display: flex;
+  }
   .edit {
     background-color: #ffbb33;
     color: white;

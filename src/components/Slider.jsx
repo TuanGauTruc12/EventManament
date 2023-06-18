@@ -10,7 +10,7 @@ const Slider = ({slider}) => {
         <Fade duration={3000}>
           {slider.map((fadeImage, index) => (
             <div key={index} className="each-fade">
-              <img style={{height: 400}} src={fadeImage.image} alt={fadeImage.alt} />
+              <img style={{height: "400px"}} src={fadeImage.image} alt={fadeImage.alt} />
             </div>
           ))}
         </Fade>

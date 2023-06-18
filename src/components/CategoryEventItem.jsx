@@ -25,17 +25,20 @@ const CategoryEventItem = ({
             {nameCategory}
           </NavLink>
         </div>
-        <div className="mt-3 flex gap-2">
-          <div className="flex flex-col w-3/4">
+        <div className="mt-3 flex gap-4">
+          <div className="flex flex-col w-[70%]">
             <img
               src={arrayCardTop.find((item, index) => index === 0)?.image}
               alt={arrayCardTop.find((item, index) => index === 0)?.title}
             />
             <span
               onClick={() =>
-                navigate("/detail-event/" + arrayCardTop.find((item, index) => index === 0)?.idEvent)
+                navigate(
+                  "/detail-event/" +
+                    arrayCardTop.find((item, index) => index === 0)?.idEvent
+                )
               }
-              className="active"
+              className="active my-3"
             >
               {arrayCardTop.find((item, index) => index === 0)?.title}
             </span>
@@ -43,35 +46,47 @@ const CategoryEventItem = ({
               {arrayCardTop.find((item, index) => index === 0)?.decription}
             </span>
           </div>
-          <div className="flex flex-col w-1/4 gap-6">
-            <div className="flex flex-col border-b-2 gap-4 border-solid border-gray-200">
-              <img
-                src={arrayCardTop.find((item, index) => index === 1)?.image}
-                alt={arrayCardTop.find((item, index) => index === 1)?.title}
-              />
-              <span onClick={() =>
-                navigate(`/detail-event/${arrayCardTop.find((item, index) => index === 0)?.idEvent}`)
-              } className="font-bold cursor-pointer">
-                {arrayCardTop.find((item, index) => index === 1)?.title}
-              </span>
-            </div>
 
-            {arrayCardTop
-              .filter((item, index) => index !== 0 && index !== 1)
-              .map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="flex flex-col border-b-2 border-solid border-gray-200"
-                  >
-                    <span 
-                     className="cursor-pointer">{item.title}</span>
-                  </div>
-                );
-              })}
-          </div>
+          {arrayCardTop.length > 1 ? (
+            <div className="flex flex-col w-[30%] gap-6">
+              <div className="flex flex-col border-b-2 gap-4 border-solid border-gray-200">
+                <img
+                  src={arrayCardTop.find((item, index) => index === 1)?.image}
+                  alt={arrayCardTop.find((item, index) => index === 1)?.title}
+                />
+                <span
+                  onClick={() =>
+                    navigate(
+                      `/detail-event/${
+                        arrayCardTop.find((item, index) => index === 0)?.idEvent
+                      }`
+                    )
+                  }
+                  className="font-bold cursor-pointer"
+                >
+                  {arrayCardTop.find((item, index) => index === 1)?.title}
+                </span>
+              </div>
+
+              {arrayCardTop
+                .filter((item, index) => index !== 0 && index !== 1)
+                .map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex flex-col border-b-2 border-solid border-gray-200"
+                    >
+                      <span className="cursor-pointer">{item.title}</span>
+                    </div>
+                  );
+                })}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
-        {arrayCardBottom !== undefined ? (
+
+        {(arrayCardBottom !== undefined ) ? (
           <>
             <div className="flex mt-4">
               {arrayCardBottom.map((item, index) => (
@@ -81,7 +96,13 @@ const CategoryEventItem = ({
             <div className="flex justify-end">
               <div className="w-fit flex cursor-pointer items-center mt-4 text-red-400 text-sm gap-1">
                 <AiFillPlusCircle color="red" size={24} />
-                <span onClick={() => {navigate(`/category/${idCategory}`)}}>Xem tất cả</span>
+                <span
+                  onClick={() => {
+                    navigate(`/category/${idCategory}`);
+                  }}
+                >
+                  Xem tất cả
+                </span>
               </div>
             </div>
           </>

@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 const EventItem = ({ event }) => {
   const navvigate = useNavigate();
 
-  const handleEventItem = (event) => {
-    navvigate("/create-event", {state: event});
+  const handleEventItem = (maSuKien) => {
+    navvigate("/detail-event/" + maSuKien);
   };
 
   return (
@@ -16,10 +16,10 @@ const EventItem = ({ event }) => {
       style={{maxWidth: "300px", height: "200px", objectFit: "cover"}}
         src={`${process.env.REACT_APP_API}/${process.env.REACT_APP_IMAGES}/${event?.hinhSuKien}`}
         alt="img"
-        onClick={()=>handleEventItem(event)}
+        onClick={()=>handleEventItem(event.maSuKien)}
       />
       <div className="flex flex-col gap-3">
-        <span>{event?.tenSuKien}</span>
+        <span className="cursor-pointer" onClick={()=>handleEventItem(event.maSuKien)}>{event?.tenSuKien}</span>
         <span>{event?.moTaSuKien}</span>
       </div>
     </div>

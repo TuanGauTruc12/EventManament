@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { pathAPI, title } from "../../../ultis/path";
 import Editor from "./Editor";
 import { getAll } from "../../../apis/BaseAPI";
-import { createEvent, getEventByID, updateEvent } from "../../../apis/EventAPI";
+import { getEventByID, updateEvent } from "../../../apis/EventAPI";
 import moment from "moment/moment";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -100,7 +100,7 @@ function EditEvent() {
         setEvent(response.data);
       }
     });
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     return () => {

@@ -4,7 +4,7 @@ import icons from "../../../ultis/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { getEventByID } from "../../../apis/EventAPI";
 import moment from "moment";
-import {Error} from './index'
+import { Error } from "./index";
 
 const DetailEvent = () => {
   const { LuCalendarDays } = icons;
@@ -15,13 +15,20 @@ const DetailEvent = () => {
 
   useEffect(() => {
     getEventByID(idEvent).then((evnetServer) => {
-      if (evnetServer.status === 200 && evnetServer.statusText === "" && evnetServer.data != "") {
+      if (
+        evnetServer.status === 200 &&
+        evnetServer.statusText === "" &&
+        evnetServer.data !== ""
+      ) {
         setEvent(evnetServer.data);
       } else {
         setEvent(undefined);
       }
     });
   }, []);
+
+  const dateOfOrganization = moment(event?.ngayToChuc).format("DD-MM-YYYY");
+  const parts = dateOfOrganization.split("-");
 
   return (
     <Styled>
@@ -33,7 +40,7 @@ const DetailEvent = () => {
             <span className="title">{event.tenSuKien}</span>
             <div className="flex gap-2">
               <LuCalendarDays size={24} />
-              <span>{moment(event.ngayToChuc).format("DD-MM-YYYY")}</span>
+              <span>{dateOfOrganization}</span>
             </div>
             <hr />
             <div
@@ -49,9 +56,22 @@ const DetailEvent = () => {
               <span>Ảnh: {event.anh}</span>
             </div>
             <div className="flex justify-center mt-2">
-              <button onClick={()=>{
-                navigate('/create-event', {state: {event: event}});
-              }} className="btn">Tạo sự kiện</button>
+              {new Date(
+                parseInt(parts[2], 10),
+                parseInt(parts[1], 10) - 1,
+                parseInt(parts[0], 10)
+              ) < new Date() ? (
+                <></>
+              ) : (
+                <button
+                  onClick={() => {
+                    navigate("/create-event", { state: { event: event } });
+                  }}
+                  className="btn"
+                >
+                  Tạo sự kiện
+                </button>
+              )}
             </div>
           </>
         )}
@@ -85,7 +105,6 @@ const Styled = styled.div`
       opacity: 1;
       cursor: default;
     }
-
   }
 `;
 

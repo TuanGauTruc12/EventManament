@@ -63,13 +63,3 @@ export const createEvent = (formData) =>
       reject(error);
     }
   });
-
-
-  export const deleteEvent = (idEvent)=> new Promise(async(resolve, reject)=>{
-    try {
-      const reponse = await axios.delete(`${process.env.REACT_APP_API}/${pathAPI.events}/delete/${idEvent}`);
-      resolve(reponse);
-    } catch (error) {
-      reject(error);
-    }
-  })

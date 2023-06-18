@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { CategoryItem } from "../../../components";
 import { Link, useParams } from "react-router-dom";
 import { getAllByIDCategory } from "../../../apis/EventAPI";
-import { pathImage } from "../../../ultis/path";
+import { pathImage, title } from "../../../ultis/path";
 import moment from "moment";
 
 const CategoryList = () => {

@@ -1,15 +1,27 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import { checkIsEmail } from "../../../ultis/valuedate";
+import { login } from "../../../apis/KhachHangAPI";
+import { useEffect } from "react";
 
+const userLocalStorage = localStorage.getItem("user");
 const Login = () => {
   document.title = "Đăng nhập";
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [error, setError] = useState("");
+
+  console.log(userLocalStorage);
+
+  useEffect(() => {
+    if (userLocalStorage !== null) {
+      navigate("/");
+    }
+  }, [userLocalStorage]);
 
   const handleLogin = () => {
     if (email.length === 0 || password.length === 0) {
@@ -22,9 +34,26 @@ const Login = () => {
         navigate("/admin/");
         toast.success("Đăng nhập thành công");
       } else {
-        const user = { user_email: email, user_password: password };
-
         //call api đăng nhập
+        const formData = new FormData();
+        formData.set("email", email);
+        formData.set("password", password);
+
+        login(formData).then((value) => {
+          if (
+            value.status === 200 &&
+            value.statusText === "" &&
+            value.data !== undefined
+          ) {
+            console.log(location.state);
+            localStorage.setItem("user", JSON.stringify(value.data));
+            if (location.state?.page === null) {
+              navigate("/");
+            } else {
+              navigate(location.state.page);
+            }
+          }
+        });
       }
     }
   };
@@ -94,7 +123,7 @@ const Style = styled.div`
   margin-bottom: 48px;
   padding-top: 5%;
 
-  button{
+  button {
     padding: 12px 16px;
   }
 

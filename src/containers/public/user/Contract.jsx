@@ -1,49 +1,84 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
+import { pathUser } from "../../../ultis/path";
+import { createContract } from "../../../apis/ContractAPI";
 
 const Contract = () => {
   document.title = "Nội dung hợp đồng";
- // const user = {} && JSON.parse(localStorage.getItem("user"));
-  const [name, setName] = useState("");
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+  const [regulation, setRegulation] = useState(false);
 
-  const [gmail, setGmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  useEffect(() => {
+    if (user === null) {
+      navigate("/login", { state: { page: pathUser.CONTRACT } });
+    }
+  }, [user]);
+
+  const [name, setName] = useState(user.user_name);
+  const [gmail, setGmail] = useState(user.email);
+  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
   const location = useLocation();
   const service = location.state.services ?? [];
   const event = location.state.event ?? {};
-  
-  const handlConfirm = () => {
-    console.log(event);
-    console.log(service);
-    //console.log(user_id);
-    //- số lượng service
-    //serviceID
-    //tong tien
-    //
-    //  -- thêm colum note- trong database    
-    //
-    //send 
-    //- event = idEVvnt
-    //- service = idService
-    //- user = idUser
-  //
+  const [error, setError] = useState("");
 
+  const handlConfirm = () => {
+    if (user === null) {
+      navigate("/login", { state: { page: pathUser.CONTRACT } });
+    } else if (!regulation) {
+      setError("Bạn chưa chấp nhận điều khoản!!!");
+    } else {
+      //cbeck data
+
+      //send api
+      const formData = new FormData();
+      const dichVus = service.map((s) => {
+        let ghiChu = "";
+        if (s.input !== undefined) {
+          ghiChu = s.input;
+        }
+        return {
+          maDichVu: s.id,
+          soLuong: s.quantity,
+          tongTien: s.quantity * s.service.gia,
+          ghiChu: ghiChu,
+        };
+      });
+
+      formData.append("soLuongKhachMoi", event.numberOfGuest);
+      formData.append("tenToChuc", event.nameCompany);
+      formData.append("MAKH", user.maUser);
+      formData.append("MASK", event.idEvent);
+      formData.append("dichVus", JSON.stringify(dichVus));
+
+      createContract(formData).then(request=>{
+        if(request.status === 200 && request.statusText === ""){
+          navigate(`/${pathUser.LIST_ORDER}`);
+        }
+      })
+
+      //navigation
+    }
   };
 
   return (
     <Styled>
-      <div id="contract">
-        <span>Nội dung hợp đồng</span>
-        <span>{event.nameEvent}</span>
-        <div className="information-customer">
+      <div style={{ background: "#ccc" }} id="contract">
+        <div style={{ fontSize: "20px" }} className="flex flex-col gap-1">
+          <span>Nội dung hợp đồng</span>
+          <span style={{ fontWeight: "bold" }}>{event.nameEvent}</span>
+        </div>
+        <div className="information-customer mt-2">
           <span className="decription">THÔNG TIN KHÁCH HÀNG</span>
           <div>
             <label htmlFor="name">Họ tên:</label>
             <span>
               <input
+                disabled
                 onChange={(e) => setName(e.target.value)}
                 id="name"
                 type="text"
@@ -55,6 +90,7 @@ const Contract = () => {
             <label htmlFor="gmail">Gmail:</label>
             <span>
               <input
+                disabled
                 onChange={(e) => setGmail(e.target.value)}
                 id="gmail"
                 type="text"
@@ -66,6 +102,7 @@ const Contract = () => {
             <label htmlFor="phoneNumber">Số điện thoại:</label>
             <span>
               <input
+                disabled
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 id="phoneNumber"
                 type="tel"
@@ -74,11 +111,11 @@ const Contract = () => {
             </span>
           </div>
         </div>
-        <div className="information-event">
+        <div className="information-event mt-3">
           <span className="decription">CÁC THÔNG TIN VỀ SỰ KIỆN</span>
           <div>
             <div>
-              <span>Tên sự kiện:</span>
+              <span className="flex-none">Tên sự kiện:</span>
               <span>{event.nameEvent}</span>
             </div>
             <div>
@@ -107,7 +144,7 @@ const Contract = () => {
             </div>
           </div>
         </div>
-        <div className="information-service">
+        <div className="information-service mt-3">
           <span>CÁC DỊCH VỤ YÊU CẦU</span>
           <table className="contracts">
             <thead>
@@ -133,15 +170,18 @@ const Contract = () => {
               ))}
             </tbody>
           </table>
-          <span className="text-right mr-10">
-            Tổng tiền:
-            {service.reduce(
-              (accumulator, currentValue) =>
-                accumulator + currentValue.quantity * currentValue.service.gia,
-              0
-            )}{" "}
-            VND
-          </span>
+          <div style={{ display: "block", textAlign: "right" }}>
+            <span className="text-right mr-10">
+              Tổng tiền:
+              {service.reduce(
+                (accumulator, currentValue) =>
+                  accumulator +
+                  currentValue.quantity * currentValue.service.gia,
+                0
+              )}{" "}
+              VND
+            </span>
+          </div>
         </div>
         <div className="stipulation-term gap-2">
           <spam>{"Các Điều khoản quy định".toUpperCase()}</spam>
@@ -168,17 +208,29 @@ const Contract = () => {
         </div>
         <div>
           <label htmlFor="check" className="">
-            <input type="checkbox" className="mr-1" name="" id="check" />
+            <input
+              type="checkbox"
+              value={regulation}
+              onChange={(e) => {
+                setRegulation(e.target.checked);
+              }}
+              className="mr-1"
+              name=""
+              id="check"
+            />
             Bạn có đồng ý với các điều khoản trên không?
             <br />
             Sau khi xác nhận sẽ có nhân viên liên hệ bạn trong 24h để xác nhận
             đặt sự kiện đặt sự kiện.
           </label>
         </div>
-        <div>
+        <div className="mt-4">
           <button onClick={() => handlConfirm()} className="btn">
             Xác nhận
           </button>
+        </div>
+        <div className="mt-4">
+          {error && <span className="error">{error}</span>}
         </div>
       </div>
     </Styled>
@@ -187,24 +239,66 @@ const Contract = () => {
 
 const Styled = styled.header`
   #contract {
-    .information-customer {
-      display: flex;
-      gap: 8px;
-      flex-direction: column;
-      div {
-        width: 30%;
-        justify-content: space-between;
+    .information-customer,
+    .information-service,
+    .information-event {
+      margin: 24px 24px 12px;
+      padding: 24px 12px;
+      padding-bottom: 12px;
+      border: solid 2px black;
+      position: relative;
+    }
+
+    div {
+      .error {
+        font-size: 18px;
+        color: red;
       }
     }
-    .information-service {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      div {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr; /* Equal width for each column */
-        gap: 10px;
+  }
+
+  .information-customer > span,
+  .information-service > span,
+  .information-event > span {
+    position: absolute;
+    margin-left: 20px;
+    top: -10px;
+    z-index: 10000;
+    padding: 0 16px;
+    background: #ccc;
+  }
+
+  .information-customer {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    div {
+      width: 30%;
+      justify-content: space-between !important;
+      span {
+        width: 70%;
+        input {
+          width: 100%;
+        }
       }
+    }
+  }
+  .information-event {
+    div {
+      gap: 16px;
+      div {
+        max-width: 50%;
+      }
+    }
+  }
+  .information-service {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    div {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr; /* Equal width for each column */
+      gap: 10px;
     }
   }
 `;
