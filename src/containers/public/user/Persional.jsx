@@ -6,11 +6,12 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { getById } from "../../../apis/BaseAPI.js";
 import icons from "../../../ultis/icons.js";
+import { pathImage } from "../../../ultis/path.js";
 
+const userLocalStorage = JSON.parse({} && localStorage.getItem("user"));
 const Persional = () => {
   const { AiTwotoneEdit } = icons;
   const navigate = useNavigate();
-  const userLocalStorage = JSON.parse({} && localStorage.getItem("user"));
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -45,21 +46,27 @@ const Persional = () => {
     setAddress(user?.diaChi);
   }, [user]);
 
+  useEffect(() => {
+    return () => {
+      image && URL.revokeObjectURL(image.preview);
+    };
+  }, [image]);
+
   return (
     <Styled>
       <div className="avartar">
         <div>
-          {user.image === "" || user.image === "null" ? (
+          {(image === undefined || user.image === undefined || user.image == null || user.image === "   ") ? (
             <div
               style={{
-                width: "32px",
-                height: "32px",
+                width: "300px",
+                height: "300px",
                 backgroundColor: "#9ef7f5",
                 borderRadius: "50%",
               }}
             ></div>
           ) : (
-            <img className="rounded-[50%]" alt="img" src={user?.image} />
+            <img className="rounded-[50%]" alt="img" src={(user.image) ? image.preview : image} />
           )}
           <label htmlFor="choose-file">
             <input

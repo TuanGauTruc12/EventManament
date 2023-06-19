@@ -101,7 +101,7 @@ function CreateEvent() {
           <input
             value={expense}
             onChange={(e) => setExpense(e.target.value)}
-            type="text"
+            type="number"
             id="expense"
           />
         </div>

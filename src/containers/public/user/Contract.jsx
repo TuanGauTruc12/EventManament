@@ -49,6 +49,7 @@ const Contract = () => {
         };
       });
 
+      formData.append("kinhPhi", event.expense);
       formData.append("soLuongKhachMoi", event.numberOfGuest);
       formData.append("tenToChuc", event.nameCompany);
       formData.append("MAKH", user.maUser);
@@ -64,6 +65,8 @@ const Contract = () => {
       //navigation
     }
   };
+
+  console.log(event);
 
   return (
     <Styled>
