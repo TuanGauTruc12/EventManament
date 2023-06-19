@@ -1,24 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import icons from "../../../ultis/icons";
 import { pathAPI, pathUser } from "../../../ultis/path.js";
 import { useNavigate } from "react-router-dom";
 import { getAllByIDKhachHang } from "../../../apis/ContractAPI";
 import moment from "moment/moment";
+import { ContractCustom } from "../../../components";
+import { createRoot } from 'react-dom/client';
 
 function ListOrder() {
   const user = JSON.parse(localStorage.getItem("user"));
   const { AiOutlineZoomIn, GrStatusGoodSmall } = icons;
   const [orders, setOrders] = useState([]);
+  const { IoMdClose } = icons;
   const navigate = useNavigate();
+  const body = useRef(null);
+  const modal = useRef(null);
+  const close = useRef(null);
 
-  const handleDetail = (maHopDong) => {};
+  function hideModal() {
+    modal.current.classList.remove("open");    
+  }
+
+  const handleDetail = (maHopDong) => {
+    modal.current.classList.add("open");
+
+    close.current.addEventListener("click", hideModal);
+
+    modal.current.addEventListener("click", hideModal);
+
+    body.current.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+    createRoot(body.current).render(<ContractCustom orderID={maHopDong}  />);
+  };
 
   if (!user) {
     navigate("/login", { state: { page: pathUser.LIST_ORDER } });
   }
 
-  useEffect(() => {    
+  useEffect(() => {
     getAllByIDKhachHang(pathAPI.contract, user.maUser).then((request) => {
       if (request.status === 200 && request.statusText === "") {
         setOrders(request.data);
@@ -43,7 +64,7 @@ function ListOrder() {
             <tr key={order?.maHopDong}>
               <td>{order?.maHopDong}</td>
               <td>{order?.tenHopDong}</td>
-              <td>{moment(order?.ngayLapHopDong).format('DD/MM/YYYY')}</td>
+              <td>{moment(order?.ngayLapHopDong).format("DD/MM/YYYY")}</td>
 
               {order?.tinhTrang === true ? (
                 <td className="status-order">
@@ -70,6 +91,23 @@ function ListOrder() {
           ))}
         </tbody>
       </table>
+
+      <div ref={modal} className="modal">
+        <div className="modal-container">
+          <div ref={close} className="modal-close text-black js-modal-close">
+            <IoMdClose />
+          </div>
+
+          <div ref={body} className="modal-body">
+          </div>
+
+          <div className="flex justify-center">
+          <button onClick={() => hideModal} className="btn">
+            Đóng
+          </button>
+          </div>
+        </div>
+      </div>
     </Styled>
   );
 }
@@ -122,6 +160,48 @@ const Styled = styled.div`
         }
       }
     }
+  }
+
+  .modal.open {
+    display: flex;
+  }
+
+  .modal {
+    input {
+      background-color: white;
+      padding: 8px;
+    }
+
+    .modal-close:hover{
+      background-color: white;
+    }
+
+    div{
+      .btn {
+        margin-top: 12px;
+      }
+    }
+
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 0;
+    }
+
+    .modal-container {
+      height: max-content;
+      width: 80vw;
+      background-color: rgb(204, 204, 204);
+    }
+
+    .modal-header {
+      height: 80px;
+    }
+  }
+
+  #contract{
+    margin-top: 0;
   }
 `;
 

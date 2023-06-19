@@ -11,3 +11,4 @@ export { default as CategoryList } from './CategoryList';
 export { default as DetailEvent } from './DetailEvent';
 export { default as Error } from './Error';
 export { default as ListOrder } from './ListOrder';
+export { default as Persional } from './Persional';

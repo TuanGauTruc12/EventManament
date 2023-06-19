@@ -20,3 +20,16 @@ export const deleteById = (id, path)=> new Promise(async(resolve, reject)=>{
     reject(error);
   }
 })
+
+
+export const getById = (id, path) => new Promise(async(resolve, reject)=>{
+  try {
+      const reponse = await axios({
+        url: `${process.env.REACT_APP_API}/${path}/getByID/${id}`,
+        method: "get",
+      });
+      resolve(reponse);
+    } catch (error) {
+      reject(error);
+    }
+})

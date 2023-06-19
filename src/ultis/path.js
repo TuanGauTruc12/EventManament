@@ -11,6 +11,7 @@ export const pathUser = {
   DETAIL_EVENT: "detail-event/:idEvent",
   CATEGORY: "category/:id",
   LIST_ORDER: "list-order",
+  PERSIONAL: "persional",
   START: "*",
 };
 

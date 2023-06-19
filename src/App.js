@@ -13,7 +13,8 @@ import {
   Register,
   CategoryList,
   Error,
-  ListOrder
+  ListOrder,
+  Persional
 } from "./containers/public/user";
 import {
   ContractDetail,
@@ -64,6 +65,7 @@ function App() {
           <Route path={pathUser.DETAIL_EVENT} element={<DetailEvent />} />
           <Route path={pathUser.LIST_ORDER} element={<ListOrder />} />
           <Route path={pathUser.START} element={<Error admin={false} />} />
+          <Route path={pathUser.PERSIONAL} element={<Persional />} />
         </Route>
 
         <Route path={pathAdmin.PUBLIC} element={<PublicAdmin />}>

@@ -74,14 +74,9 @@ function Header() {
                 ) : (
                   <>
                     <li className="flex w-full flex-col text-[13px] justify-end">
-                      <span className="mt-2 p-4 cursor-pointer hover:bg-[#f38609]">
-                        {user.user_name}
-                      </span>
-
                       <span
                         onClick={() => {
-                          localStorage.removeItem("user");
-                          navigate("/");
+                          navigate("/persional");
                         }}
                         className="mt-2 p-4 cursor-pointer hover:bg-[#f38609]"
                       >
@@ -90,8 +85,7 @@ function Header() {
 
                       <span
                         onClick={() => {
-                          localStorage.removeItem("user");
-                          navigate("/");
+                          navigate("/list-order");
                         }}
                         className="mt-2 p-4 cursor-pointer hover:bg-[#f38609]"
                       >
@@ -101,6 +95,7 @@ function Header() {
                       <span
                         onClick={() => {
                           localStorage.removeItem("user");
+                          window.location.reload(true);
                           navigate("/");
                         }}
                         className="mt-2 p-4 cursor-pointer hover:bg-[#f38609]"

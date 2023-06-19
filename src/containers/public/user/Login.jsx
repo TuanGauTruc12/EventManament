@@ -15,8 +15,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
-  console.log(userLocalStorage);
-
   useEffect(() => {
     if (userLocalStorage !== null) {
       navigate("/");
@@ -42,15 +40,17 @@ const Login = () => {
         login(formData).then((value) => {
           if (
             value.status === 200 &&
-            value.statusText === "" &&
-            value.data !== undefined
+            value.statusText === ""
           ) {
-            console.log(location.state);
             localStorage.setItem("user", JSON.stringify(value.data));
-            if (location.state?.page === null) {
+            if (location.state === null) {
               navigate("/");
+              window.location.reload(true);
+              window.location.reload(false);
             } else {
               navigate(location.state.page);
+              window.location.reload(true);
+              window.location.reload(false);
             }
           }
         });

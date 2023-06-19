@@ -8,6 +8,8 @@ const EventItem = ({ event }) => {
     navvigate("/detail-event/" + maSuKien);
   };
 
+  console.log(123);
+
   return (
     <div className="item-event">
       <img
