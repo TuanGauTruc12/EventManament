@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { getById } from "../../../apis/BaseAPI.js";
 import icons from "../../../ultis/icons.js";
 import { pathImage } from "../../../ultis/path.js";
+import { updateKhachHang } from "../../../apis/KhachHangAPI.js";
 
 const userLocalStorage = JSON.parse({} && localStorage.getItem("user"));
 const Persional = () => {
@@ -20,12 +21,12 @@ const Persional = () => {
   const [user, setUser] = useState();
   const [image, setImage] = useState();
 
-  if (userLocalStorage === undefined) {
+  if (userLocalStorage === null) {
     navigate("/login", { state: { page: pathUser.PERSIONAL } });
   }
 
   useEffect(() => {
-    getById(userLocalStorage.maUser, pathAPI.custommer).then((response) => {
+    getById(userLocalStorage?.maUser, pathAPI.custommer).then((response) => {
       if (response.status === 200 && response.statusText === "") {
         setUser(response.data);
       }
@@ -52,11 +53,37 @@ const Persional = () => {
     };
   }, [image]);
 
+  const handleUpdate = () => {
+    if (password < 8) {
+      //error pass
+    } else {
+      const formData = new FormData();
+      formData.append("id_user", user.maKhachHang);
+      formData.append("phoneNumber", phoneNumber);
+      formData.append("address", address);
+      formData.append("password", password);
+      formData.append("file", image);
+
+      updateKhachHang(formData).then((response) => {
+        if (
+          response.status === 200 &&
+          response.statusText === "" &&
+          response.data === ""
+        ) {
+          window.location.reload(true);
+          window.location.reload(false);
+        }
+      });
+    }
+  };
+
   return (
     <Styled>
       <div className="avartar">
         <div>
-          {(image === undefined || user.image === undefined || user.image == null || user.image === "   ") ? (
+          {user?.image === undefined ||
+          user?.image === null ||
+          user?.image === "" ? (
             <div
               style={{
                 width: "300px",
@@ -66,7 +93,11 @@ const Persional = () => {
               }}
             ></div>
           ) : (
-            <img className="rounded-[50%]" alt="img" src={(user.image) ? image.preview : image} />
+            <img
+              className="rounded-[50%]"
+              alt="img"
+              src={image?.preview ?? pathImage +"/" + user?.image}
+            />
           )}
           <label htmlFor="choose-file">
             <input
@@ -85,11 +116,18 @@ const Persional = () => {
       </div>
       <div className="email">
         <label htmlFor="email">Email</label>
-        <input value={email} type="email" placeholder="Nhập email" id="email" />
+        <input
+          disabled
+          value={email}
+          type="email"
+          placeholder="Nhập email"
+          id="email"
+        />
       </div>
       <div className="phoneNumber">
         <label htmlFor="phoneNumber">Số điện thoại</label>
         <input
+          onChange={(e) => setPhoneNumber(e.target.value)}
           value={phoneNumber}
           type="tel"
           placeholder="Nhập số điện thoại"
@@ -99,6 +137,7 @@ const Persional = () => {
       <div className="address">
         <label htmlFor="address">Địa chỉ</label>
         <input
+          onChange={(e) => setAddress(e.target.value)}
           value={address}
           type="text"
           placeholder="Nhập địa chỉ"
@@ -108,6 +147,7 @@ const Persional = () => {
       <div className="password">
         <label htmlFor="password">Mật khẩu</label>
         <input
+          onChange={(e) => setPassword(e.target.value)}
           value={password}
           type="password"
           placeholder="Nhập mật khẩu"
@@ -115,7 +155,9 @@ const Persional = () => {
         />
       </div>
       <div className="change-info">
-        <button className="btn">Cập nhật</button>
+        <button onClick={() => handleUpdate()} className="btn">
+          Cập nhật
+        </button>
       </div>
     </Styled>
   );
@@ -206,6 +248,7 @@ const Styled = styled.div`
 
   div:last-child {
     border-bottom: unset;
+    z-index: 1000;
   }
 `;
 
